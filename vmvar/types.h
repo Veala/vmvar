@@ -10,9 +10,9 @@ using namespace std;
 class typeAbstract
 {
 public:
-    typeAbstract(string vName);
-    void setName(string newName);
-    const string getName();
+    typeAbstract(string vName)    { varName = vName; }
+    void setName(string newName)  { varName = newName; }
+    const string getName()        { return varName; }
     typedef unsigned int uint;
 protected:
     string varName;
@@ -26,9 +26,9 @@ template <class T>
 class simpleAbstract : public typeAbstract
 {
 public:
-    simpleAbstract(string vName, T defVal);
-    void setValue(T newValue);
-    const T getValue();
+    simpleAbstract(string vName, T defVal) : typeAbstract(vName) { value = defVal; }
+    void setValue(T newValue) { value = newValue; }
+    const T getValue() { return value; }
 protected:
     T value;
 private:
@@ -70,6 +70,8 @@ private:
 
 };
 
+typedef arrayAbstract<int> intTypexxx;
+
 class vmBoolArray : public arrayAbstract<bool>
 {
 public:
@@ -102,7 +104,7 @@ public:
     const T getValue(uint row, uint column);
 protected:
     //T** value;
-    vector< vector<T> > value;
+    vector< vector<T>* > value;
 private:
 
 };
@@ -110,111 +112,22 @@ private:
 class vmBoolTable : public tableAbstract<bool>
 {
 public:
-    vmBoolTable(string vName, bool defVal, uint numRows, uint numColumns) : tableAbstract(vName, defVal, numRows, numColumns) { }
+    vmBoolTable(string vName, bool defVal, uint numRows, uint numColumns) : tableAbstract<bool>(vName, defVal, numRows, numColumns) { }
 };
 class vmIntTable : public tableAbstract<int>
 {
 public:
-    vmIntTable(string vName, int defVal, uint numRows, uint numColumns) : tableAbstract(vName, defVal, numRows, numColumns) { }
+    vmIntTable(string vName, int defVal, uint numRows, uint numColumns) : tableAbstract<int>(vName, defVal, numRows, numColumns) { }
 };
 class vmLongTable : public tableAbstract<long>
 {
 public:
-    vmLongTable(string vName, long defVal, uint numRows, uint numColumns) : tableAbstract(vName, defVal, numRows, numColumns) { }
+    vmLongTable(string vName, long defVal, uint numRows, uint numColumns) : tableAbstract<long>(vName, defVal, numRows, numColumns) { }
 };
 class vmStringTable : public tableAbstract<string>
 {
 public:
-    vmStringTable(string vName, string defVal, uint numRows, uint numColumns) : tableAbstract(vName, defVal, numRows, numColumns) { }
+    vmStringTable(string vName, string defVal, uint numRows, uint numColumns) : tableAbstract<string>(vName, defVal, numRows, numColumns) { }
 };
 
-//=============================================================================================================================================================================================
-
-typeAbstract::typeAbstract(string vName)
-{
-    varName = vName;
-}
-
-//void typeAbstract::setName(string newName)
-//{
-//    varName = newName;
-//}
-
-//const string typeAbstract::getName()
-//{
-//    return varName;
-//}
-
-//---------------------------------------------------------------------------------------------------------------------------------
-
-template <class T> simpleAbstract<T>::simpleAbstract(string vName, T defVal) : typeAbstract(vName)
-{
-    value = defVal;
-}
-
-//template <class T> void simpleAbstract<T>::setValue(T newValue)
-//{
-//    value = newValue;
-//}
-
-//template <class T> const T simpleAbstract<T>::getValue()
-//{
-//    return value;
-//}
-
-//---------------------------------------------------------------------------------------------------------------------------------
-
-template <class T> arrayAbstract<T>::arrayAbstract(string vName, T defVal, uint N) : typeAbstract(vName)
-{
-    for (unsigned i=0;i<N;i++) value.push_back(defVal);
-}
-
-//template <class T> void arrayAbstract<T>::setValue(uint index, T newValue)
-//{
-//    try {
-//        value[index] = newValue;
-//    } catch (const std::out_of_range &err) {
-//        cout << err.what() << endl;
-//    }
-//}
-
-//template <class T> const T arrayAbstract<T>::getValue(uint index)
-//{
-//    try {
-//        return value[index];
-//    } catch (const std::out_of_range &err) {
-//        cout << err.what() << endl;
-//    }
-//}
-
-//---------------------------------------------------------------------------------------------------------------------------------
-
-template <class T> tableAbstract<T>::tableAbstract(string vName, T defVal, uint N_Rows, uint N_Columns) : typeAbstract(vName)
-{
-    for (uint i=0;i<N_Rows;i++) {
-        vector<T> line;
-        value.push_back(line);
-        for (uint j=0;j<N_Columns;j++) {
-            line.push_back(defVal);
-        }
-    }
-}
-
-//template <class T> void tableAbstract<T>::setValue(uint row, uint column, T newValue)
-//{
-//    try {
-//        value[row][column] = newValue;
-//    } catch (const std::out_of_range &err) {
-//        cout << err.what() << endl;
-//    }
-//}
-
-//template <class T> const T tableAbstract<T>::getValue(uint row, uint column)
-//{
-//    try {
-//        return value[row][column];
-//    } catch (const std::out_of_range &err) {
-//        cout << err.what() << endl;
-//    }
-//}
 #endif // TYPEABSTRACT_H
