@@ -1,4 +1,5 @@
 #ignore debug path
+/build-vmvar-Desktop_Qt_5_4_2_MinGW_32bit_qt_54_w-Debug
 /build-vmvar-Desktop_Qt_5_4_2_MinGW_32bit-Debug
 /build-vmvar-Desktop_Qt_5_4_2_MinGW_32bit-Release
 #ignore /toAdmin/*.user, *.autosave
