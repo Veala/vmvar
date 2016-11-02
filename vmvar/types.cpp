@@ -1,11 +1,16 @@
 #include "types.h"
 
-template <class T> arrayAbstract<T>::arrayAbstract(string vName, T defVal, uint N) : typeAbstract(vName)
+template <class T> simpleAbstract<T>::simpleAbstract(string vName, T defVal, uint N) : typeAbstract(vName)
 {
-    for (unsigned i=0;i<N;i++) value.push_back(defVal);
+    for (uint i=0;i<N;i++) value.push_back(defVal);
 }
 
-template <class T> void arrayAbstract<T>::setValue(uint index, T newValue)
+template <class T> simpleAbstract<T>::simpleAbstract(simpleAbstract &data) : typeAbstract(data.varName)
+{
+    for (uint i=0;i<data.value.size();i++) value.push_back(data.value.at(i));
+}
+
+template <class T> void simpleAbstract<T>::setValue(uint index, T newValue)
 {
     try {
         value.at(index) = newValue;
@@ -14,7 +19,7 @@ template <class T> void arrayAbstract<T>::setValue(uint index, T newValue)
     }
 }
 
-template <class T> const T arrayAbstract<T>::getValue(uint index)
+template <class T> const T simpleAbstract<T>::getValue(uint index)
 {
     try {
         return value.at(index);
@@ -23,10 +28,8 @@ template <class T> const T arrayAbstract<T>::getValue(uint index)
     }
 }
 
-template class arrayAbstract<bool>;
-template class arrayAbstract<int>;
-template class arrayAbstract<long>;
-template class arrayAbstract<string>;
+template class simpleAbstract<int>;
+template class simpleAbstract<string>;
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -36,6 +39,16 @@ template <class T> tableAbstract<T>::tableAbstract(string vName, T defVal, uint 
         vector<T> line;
         for (uint j=0;j<N_Columns;j++)
             line.push_back(defVal);
+        value.push_back(line);
+    }
+}
+
+template <class T> tableAbstract<T>::tableAbstract(tableAbstract &data) : typeAbstract(data.varName)
+{
+    for (uint i=0;i<data.value.size();i++) {
+        vector<T> line;
+        for (uint j=0;j<data.value.at(i).size();j++)
+            line.push_back(data.getValue(i,j));
         value.push_back(line);
     }
 }
@@ -58,9 +71,7 @@ template <class T> const T tableAbstract<T>::getValue(uint row, uint column)
     }
 }
 
-template class tableAbstract<bool>;
 template class tableAbstract<int>;
-template class tableAbstract<long>;
 template class tableAbstract<string>;
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
