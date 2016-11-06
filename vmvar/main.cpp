@@ -1,29 +1,37 @@
 #include <types.h>
 
+void f(typeAbstract *data) {
+    switch (data->getType()) {
+    case typeAbstract::INT:
+        cout << ((vmInt*)data)->getValue(0) << endl;
+        break;
+    case  typeAbstract::STRING:
+        cout << ((vmString*)data)->getValue(0) << endl;
+        break;
+    case  typeAbstract::INTTABLE:
+        cout << ((vmIntTable*)data)->getValue(0,1) << endl;
+        break;
+    case  typeAbstract::STRINGTABLE:
+        cout << ((vmStringTable*)data)->getValue(0,1) << endl;
+        break;
+    }
+}
+
 int main()
 {
-    vector<typeAbstract> data;
+    vector<typeAbstract*> data;
 
-    vmInt data1("data1", 7, 1);
-    vmIntTable data2("data2", 8, 3, 3);
+    typeAbstract *data1 = new vmInt("data1", 7, 1);
+    typeAbstract *data2 = new vmIntTable("data2", 8, 3, 3);
 
     data.push_back(data1);
     data.push_back(data2);
-    cout << ((vmInt)(data.at(0))).getValue(0) << endl;
-    cout << ((vmIntTable)data.at(1)).getValue(0,0) << endl;
 
-//    vector<typeAbstract*> data;
+    f(data.at(0));
+    f(data.at(1));
 
-//    typeAbstract *data1 = new vmInt("data1", 7, 1);
-//    typeAbstract *data2 = new vmIntTable("data2", 8, 3, 3);
-
-//    data.push_back(data1);
-//    data.push_back(data2);
-//    cout << ((vmInt*)data.at(0))->getValue(0) << endl;
-//    cout << ((vmIntTable*)data.at(1))->getValue(0,0) << endl;
-
-//    delete data1;
-//    delete data2;
+    delete data1;
+    delete data2;
 
 
 //    vmIntTable it("it", 123, 2, 10);

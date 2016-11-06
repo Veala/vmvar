@@ -10,19 +10,21 @@ using namespace std;
 class typeAbstract
 {
 public:
-    typeAbstract(string vName)    { varName = vName; }
-    void setName(string newName)  { varName = newName; }
-    const string getName()        { return varName; }
-    typedef unsigned int uint;
-protected:
-    string varName;
-    types type;
-private:
     enum types {
         INT,      INTTABLE,
         STRING,   STRINGTABLE,
         VMUSER
     };
+    typeAbstract(string vName)    { varName = vName; }
+    void setName(string newName)  { varName = newName; }
+    const string getName()        { return varName; }
+    types getType()               { return type; }
+    typedef unsigned int uint;
+protected:
+    string varName;
+    types type;
+private:
+
 };
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,19 +42,18 @@ private:
 
 };
 
-class vmInt : public simpleAbstract<int>
+class vmInt : public simpleAbstract <int>
 {
 public:
-    vmInt(string vName, int defVal, uint N) : simpleAbstract(vName, defVal, N) { type = INT };
-    //vmInt(vmInt &data) : simpleAbstract<int>(data) { type = INT };
-protected:
-
-private:
-
+    vmInt(string vName, int defVal, uint N) : simpleAbstract<int>(vName, defVal, N) { type = INT; }
+    vmInt(vmInt &data) : simpleAbstract<int>(data) { type = INT; }
 };
-
-//typedef simpleAbstract<int>      vmInt;
-//typedef simpleAbstract<string>   vmString;
+class vmString : public simpleAbstract <string>
+{
+public:
+    vmString(string vName, string defVal, uint N) : simpleAbstract<string>(vName, defVal, N) { type = STRING; }
+    vmString(vmString &data) : simpleAbstract<string>(data) { type = STRING; }
+};
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -69,8 +70,18 @@ private:
 
 };
 
-typedef tableAbstract<int>      vmIntTable;
-typedef tableAbstract<string>   vmStringTable;
+class vmIntTable : public tableAbstract <int>
+{
+public:
+    vmIntTable(string vName, int defVal, uint numRows, uint numColumns) : tableAbstract<int>(vName, defVal, numRows, numColumns) { type = INTTABLE; }
+    vmIntTable(vmIntTable &data) : tableAbstract<int>(data) { type = INTTABLE; }
+};
+class vmStringTable : public tableAbstract <string>
+{
+public:
+    vmStringTable(string vName, string defVal, uint numRows, uint numColumns) : tableAbstract<string>(vName, defVal, numRows, numColumns) { type = STRINGTABLE; }
+    vmStringTable(vmStringTable &data) : tableAbstract<string>(data) { type = STRINGTABLE; }
+};
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

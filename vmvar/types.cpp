@@ -3,7 +3,6 @@
 template <class T> simpleAbstract<T>::simpleAbstract(string vName, T defVal, uint N) : typeAbstract(vName)
 {
     for (uint i=0;i<N;i++) value.push_back(defVal);
-    T
 }
 
 template <class T> simpleAbstract<T>::simpleAbstract(simpleAbstract &data) : typeAbstract(data.varName)
