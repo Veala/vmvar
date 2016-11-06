@@ -43,8 +43,8 @@ private:
 class vmInt : public simpleAbstract<int>
 {
 public:
-    vmInt(string vName, T defVal, uint N) : simpleAbstract(string vName, T defVal, uint N);
-    simpleAbstract(simpleAbstract &data);
+    vmInt(string vName, int defVal, uint N) : simpleAbstract(vName, defVal, N) { type = INT };
+    //vmInt(vmInt &data) : simpleAbstract<int>(data) { type = INT };
 protected:
 
 private:
