@@ -16,8 +16,13 @@ public:
     typedef unsigned int uint;
 protected:
     string varName;
+    types type;
 private:
-
+    enum types {
+        INT,      INTTABLE,
+        STRING,   STRINGTABLE,
+        VMUSER
+    };
 };
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -35,8 +40,19 @@ private:
 
 };
 
-typedef simpleAbstract<int>      vmInt;
-typedef simpleAbstract<string>   vmString;
+class vmInt : public simpleAbstract<int>
+{
+public:
+    vmInt(string vName, T defVal, uint N) : simpleAbstract(string vName, T defVal, uint N);
+    simpleAbstract(simpleAbstract &data);
+protected:
+
+private:
+
+};
+
+//typedef simpleAbstract<int>      vmInt;
+//typedef simpleAbstract<string>   vmString;
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
