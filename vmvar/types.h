@@ -35,7 +35,7 @@ public:
     simpleAbstract(string vName, T defVal, uint N);
     simpleAbstract(simpleAbstract &data);
     void setValue(uint index, T newValue);
-    const T getValue(uint index);
+    T getValue(uint index);
 protected:
     vector<T> value;
 private:
@@ -63,7 +63,7 @@ public:
     tableAbstract(string vName, T defVal, uint numRows, uint numColumns);
     tableAbstract(tableAbstract &data);
     void setValue(uint row, uint column, T newValue);
-    const T getValue(uint row, uint column);
+    T getValue(uint row, uint column);
 protected:
     vector< vector<T> > value;
 private:
@@ -88,12 +88,42 @@ public:
 class userAbstract : public typeAbstract
 {
 public:
-    userAbstract(string vName, uint numVmInts, uint numVmStrings, uint numVmITables, uint numVmSTables);
+    userAbstract(string vName) : typeAbstract(vName) { type = VMUSER; }
+    void setValue(typeAbstract* val) { value.push_back(val); }
+    void del(typeAbstract* v) {
+        switch (v->getType()) {
+        case INT:
+            delete (vmInt*)v;
+            break;
+        case STRING:
+            delete (vmString*)v;
+            break;
+        case INTTABLE:
+            delete (vmIntTable*)v;
+            break;
+        case STRINGTABLE:
+            delete (vmStringTable*)v;
+            break;
+        case VMUSER:
+            delete (userAbstract*)v;
+            break;
+        }
+    }
+    typeAbstract* getValue(string vName, types t) {
+        typeAbstract* val;
+        for (uint i=0; i<value.size(); i++) {
+            val = value.at(i);
+            if ((val->getName() == vName) && (val->getType() == t)) return val;
+        }
+        return 0;
+    }
+    ~userAbstract() {
+        for (uint i=0; i<value.size(); i++)
+            del(value.at(i));
+    }
+
 protected:
-    vector<vmInt>           vmIntValues;
-    vector<vmString>        vmStringValues;
-    vector<vmIntTable>      vmIntTables;
-    vector<vmStringTable>   vmStringTables;
+    vector<typeAbstract*>   value;
 private:
 
 };

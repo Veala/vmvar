@@ -14,6 +14,9 @@ void f(typeAbstract *data) {
     case  typeAbstract::STRINGTABLE:
         cout << ((vmStringTable*)data)->getValue(0,1) << endl;
         break;
+    case  typeAbstract::VMUSER:
+        cout << (userAbstract*)data << endl;
+        break;
     }
 }
 
@@ -23,16 +26,28 @@ int main()
 
     typeAbstract *data1 = new vmInt("data1", 7, 1);
     typeAbstract *data2 = new vmIntTable("data2", 8, 3, 3);
-
     data.push_back(data1);
     data.push_back(data2);
-
     f(data.at(0));
     f(data.at(1));
+    ((vmInt*)data1)->setValue(0, 17);
+    ((vmIntTable*)data2)->setValue(0, 1, 18);
 
-    delete data1;
-    delete data2;
 
+    userAbstract userVal("userVal");
+    userVal.setValue(data1);
+    userVal.setValue(data2);
+    typeAbstract *value = userVal.getValue("data1", typeAbstract::INT);
+    if (value!=0) {
+        f(value);
+    }
+    value = userVal.getValue("data2", typeAbstract::INTTABLE);
+    if (value!=0) {
+        f(value);
+    }
+
+    //delete data1;
+    //delete data2;
 
 //    vmIntTable it("it", 123, 2, 10);
 //    cout << it.getName() << endl;

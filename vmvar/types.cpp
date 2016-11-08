@@ -19,7 +19,7 @@ template <class T> void simpleAbstract<T>::setValue(uint index, T newValue)
     }
 }
 
-template <class T> const T simpleAbstract<T>::getValue(uint index)
+template <class T> T simpleAbstract<T>::getValue(uint index)
 {
     try {
         return value.at(index);
@@ -62,7 +62,7 @@ template <class T> void tableAbstract<T>::setValue(uint row, uint column, T newV
     }
 }
 
-template <class T> const T tableAbstract<T>::getValue(uint row, uint column)
+template <class T> T tableAbstract<T>::getValue(uint row, uint column)
 {
     try {
         return value.at(row).at(column);
@@ -75,15 +75,4 @@ template class tableAbstract<int>;
 template class tableAbstract<string>;
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/*
-userAbstract::userAbstract(string vName, uint numVmBools, uint numVmInts, uint numVmLongs, uint numVmStrings, uint numVmBTables, uint numVmITables, uint numVmLTables, uint numVmSTables) : typeAbstract(vName)
-{
-    //for (int i=0;i<numVmBools;i++) vmBoolValues.push_back(vmBool());
-}
 
-vmBool userAbstract::getBool(string name)
-{
-//    if (vmBoolValues.size() == 0) throw "Error";
-//    for (int i=0; i<vmBoolValues.size(); i++)
-}
-*/
