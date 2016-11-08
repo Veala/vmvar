@@ -28,7 +28,10 @@ template <class T> T simpleAbstract<T>::getValue(uint index)
     }
 }
 
+template class simpleAbstract<bool>;
 template class simpleAbstract<int>;
+template class simpleAbstract<long>;
+template class simpleAbstract<float>;
 template class simpleAbstract<string>;
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -71,7 +74,10 @@ template <class T> T tableAbstract<T>::getValue(uint row, uint column)
     }
 }
 
+template class tableAbstract<bool>;
 template class tableAbstract<int>;
+template class tableAbstract<long>;
+template class tableAbstract<float>;
 template class tableAbstract<string>;
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
