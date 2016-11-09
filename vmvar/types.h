@@ -135,9 +135,6 @@ public:
     typeAbstract* getVar(string strHierarchy, types t) {
         istringstream iss(strHierarchy);   vector<string> names;
         while (getline(iss, strHierarchy, '.'))    names.push_back(strHierarchy);
-//        for (uint i=0;i<names.size();i++)
-//            cout << names[i] << '.';
-//        cout << endl;
 
         if (names.size() == 0)  return 0;
         else if (names.size() == 1)  return searchVar(names[0], t);
