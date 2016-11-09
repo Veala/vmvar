@@ -2,8 +2,8 @@
 #define TYPEABSTRACT_H
 
 #include<iostream>
+#include<sstream>
 #include<string>
-#include<istream>
 #include<vector>
 #include<stdexcept>
 
@@ -132,55 +132,28 @@ public:
     userAbstract(string vName) : typeAbstract(vName) { type = VMUSER; }
     void addVar(typeAbstract* var) { vars.push_back(var); }
 
-    void del(typeAbstract* v) {
-        switch (v->getType()) {
-        case BOOL:
-            delete (vmBool*)v;
-            break;
-        case INT:
-            delete (vmInt*)v;
-            break;
-        case LONG:
-            delete (vmLong*)v;
-            break;
-        case FLOAT:
-            delete (vmFloat*)v;
-            break;
-        case STRING:
-            delete (vmString*)v;
-            break;
-        case BOOLTABLE:
-            delete (vmBoolTable*)v;
-            break;
-        case INTTABLE:
-            delete (vmIntTable*)v;
-            break;
-        case LONGTABLE:
-            delete (vmLongTable*)v;
-            break;
-        case FLOATTABLE:
-            delete (vmFloatTable*)v;
-            break;
-        case STRINGTABLE:
-            delete (vmStringTable*)v;
-            break;
-        case VMUSER:
-            delete (userAbstract*)v;
-            break;
+    typeAbstract* getVar(string strHierarchy, types t) {
+        istringstream iss(strHierarchy);   vector<string> names;
+        while (getline(iss, strHierarchy, '.'))    names.push_back(strHierarchy);
+//        for (uint i=0;i<names.size();i++)
+//            cout << names[i] << '.';
+//        cout << endl;
+
+        if (names.size() == 0)  return 0;
+        else if (names.size() == 1)  return searchVar(names[0], t);
+        else {
+            strHierarchy.clear();
+            for (uint i=1;i<names.size();i++) {
+                strHierarchy+=names[i];
+                if (i!=names.size()-1) strHierarchy+='.';
+            }
+            typeAbstract* var = searchVar(names[0], VMUSER);
+            if(var) return ((userAbstract*)var)->getVar(strHierarchy,t);
+            else    return 0;
+
         }
     }
 
-    typeAbstract* getVar(string vName, types t) {
-        stringstream sstr;
-        getline()
-
-        typeAbstract* var;
-        for (uint i=0; i<vars.size(); i++) {
-            var = vars.at(i);
-            if ((var->getName() == vName) && (var->getType() == t)) return var;
-        }
-        return 0;
-    }
     userAbstract* clone() {
         userAbstract* clone = new userAbstract(varName);
         for (uint i=0; i<vars.size();i++) {
@@ -232,7 +205,51 @@ public:
 protected:
     vector<typeAbstract*>   vars;
 private:
-
+    typeAbstract* searchVar(string vName, types t) {
+        typeAbstract* var;
+        for (uint i=0; i<vars.size(); i++) {
+            var = vars.at(i);
+            if ((var->getName() == vName) && (var->getType() == t)) return var;
+        }
+        return 0;
+    }
+    void del(typeAbstract* v) {
+        switch (v->getType()) {
+        case BOOL:
+            delete (vmBool*)v;
+            break;
+        case INT:
+            delete (vmInt*)v;
+            break;
+        case LONG:
+            delete (vmLong*)v;
+            break;
+        case FLOAT:
+            delete (vmFloat*)v;
+            break;
+        case STRING:
+            delete (vmString*)v;
+            break;
+        case BOOLTABLE:
+            delete (vmBoolTable*)v;
+            break;
+        case INTTABLE:
+            delete (vmIntTable*)v;
+            break;
+        case LONGTABLE:
+            delete (vmLongTable*)v;
+            break;
+        case FLOATTABLE:
+            delete (vmFloatTable*)v;
+            break;
+        case STRINGTABLE:
+            delete (vmStringTable*)v;
+            break;
+        case VMUSER:
+            delete (userAbstract*)v;
+            break;
+        }
+    }
 };
 
 #endif // TYPEABSTRACT_H

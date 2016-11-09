@@ -33,7 +33,7 @@ void f(typeAbstract *data) {
         cout << ((vmStringTable*)data)->getValue(0,1) << endl;
         break;
     case  typeAbstract::VMUSER:
-        cout << (userAbstract*)data << endl;
+        cout << ((userAbstract*)data)->getName() << endl;
         break;
     }
 }
@@ -61,7 +61,7 @@ int main()
     userAbstract *uv = new userAbstract("uv");
     uv->addVar(data3);
     uv->addVar(data4);
-    //uv->addVar(&userVal);
+    uv->addVar(&userVal);
 
     userAbstract *uVal = uv->clone();
 
@@ -75,8 +75,38 @@ int main()
     if (value!=0) {
         f(value);
     }
+    value = uVal->getVar("userVal.data1", typeAbstract::INT);
+    if (value!=0) {
+        f(value);
+    }
+    value = uVal->getVar("userVal.data2", typeAbstract::INTTABLE);
+    if (value!=0) {
+        f(value);
+    }
+    value = uVal->getVar("userVal", typeAbstract::VMUSER);
+    if (value!=0) {
+        f(value);
+    }
 
     delete uVal;
+
+//    value = uv->getVar("data3", typeAbstract::INT);
+//    if (value!=0) {
+//        f(value);
+//    }
+//    value = uv->getVar("data4", typeAbstract::INTTABLE);
+//    if (value!=0) {
+//        f(value);
+//    }
+//    value = uv->getVar("userVal.data1", typeAbstract::INT);
+//    if (value!=0) {
+//        f(value);
+//    }
+//    value = uv->getVar("userVal.data2", typeAbstract::INTTABLE);
+//    if (value!=0) {
+//        f(value);
+//    }
+
 
     //delete data1;
     //delete data2;
