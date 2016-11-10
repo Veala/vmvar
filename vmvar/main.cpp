@@ -1,6 +1,6 @@
 #include "types.h"
 
-void f(typeAbstract *data) {
+void f(typeAbstract* data) {
     switch (data->getType()) {
     case typeAbstract::BOOL:
         cout << ((vmBool*)data)->getValue(0) << endl;
@@ -62,6 +62,8 @@ int main()
     uv->addVar(data3);
     uv->addVar(data4);
     uv->addVar(&userVal);
+
+    delete (vmInt*)data3; delete (vmIntTable*)data4;
 
     userAbstract *uVal = uv->clone();
 

@@ -8,6 +8,7 @@ template <class T> simpleAbstract<T>::simpleAbstract(string vName, T defVal, uin
 template <class T> simpleAbstract<T>::simpleAbstract(simpleAbstract &data) : typeAbstract(data.varName)
 {
     for (uint i=0;i<data.value.size();i++) value.push_back(data.value.at(i));
+    type = data.getType();
 }
 
 template <class T> void simpleAbstract<T>::setValue(uint index, T newValue)
@@ -54,6 +55,7 @@ template <class T> tableAbstract<T>::tableAbstract(tableAbstract &data) : typeAb
             line.push_back(data.getValue(i,j));
         value.push_back(line);
     }
+    type = data.getType();
 }
 
 template <class T> void tableAbstract<T>::setValue(uint row, uint column, T newValue)
