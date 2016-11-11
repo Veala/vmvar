@@ -4,10 +4,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    types.cpp
+    N2Types.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    types.h
+    N2Types.h

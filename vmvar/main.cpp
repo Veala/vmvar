@@ -1,110 +1,110 @@
-#include "types.h"
+#include "N2Types.h"
 
-void f(typeAbstract* data) {
+void f(N2AbstractType* data) {
     switch (data->getType()) {
-    case typeAbstract::BOOL:
-        cout << ((vmBool*)data)->getValue(0) << endl;
+    case N2AbstractType::BOOL:
+        cout << ((N2Bool*)data)->getValue(0) << endl;
         break;
-    case typeAbstract::INT:
-        cout << ((vmInt*)data)->getValue(0) << endl;
+    case N2AbstractType::INT:
+        cout << ((N2Int*)data)->getValue(0) << endl;
         break;
-    case typeAbstract::LONG:
-        cout << ((vmLong*)data)->getValue(0) << endl;
+    case N2AbstractType::LONG:
+        cout << ((N2Long*)data)->getValue(0) << endl;
         break;
-    case typeAbstract::FLOAT:
-        cout << ((vmFloat*)data)->getValue(0) << endl;
+    case N2AbstractType::FLOAT:
+        cout << ((N2Float*)data)->getValue(0) << endl;
         break;
-    case  typeAbstract::STRING:
-        cout << ((vmString*)data)->getValue(0) << endl;
+    case  N2AbstractType::STRING:
+        cout << ((N2String*)data)->getValue(0) << endl;
         break;
-    case  typeAbstract::BOOLTABLE:
-        cout << ((vmBoolTable*)data)->getValue(0,1) << endl;
+    case  N2AbstractType::BOOLTABLE:
+        cout << ((N2BoolTable*)data)->getValue(0,1) << endl;
         break;
-    case  typeAbstract::INTTABLE:
-        cout << ((vmIntTable*)data)->getValue(0,1) << endl;
+    case  N2AbstractType::INTTABLE:
+        cout << ((N2IntTable*)data)->getValue(0,1) << endl;
         break;
-    case  typeAbstract::LONGTABLE:
-        cout << ((vmLongTable*)data)->getValue(0,1) << endl;
+    case  N2AbstractType::LONGTABLE:
+        cout << ((N2LongTable*)data)->getValue(0,1) << endl;
         break;
-    case  typeAbstract::FLOATTABLE:
-        cout << ((vmFloatTable*)data)->getValue(0,1) << endl;
+    case  N2AbstractType::FLOATTABLE:
+        cout << ((N2FloatTable*)data)->getValue(0,1) << endl;
         break;
-    case  typeAbstract::STRINGTABLE:
-        cout << ((vmStringTable*)data)->getValue(0,1) << endl;
+    case  N2AbstractType::STRINGTABLE:
+        cout << ((N2StringTable*)data)->getValue(0,1) << endl;
         break;
-    case  typeAbstract::VMUSER:
-        cout << ((userAbstract*)data)->getName() << endl;
+    case  N2AbstractType::VMUSER:
+        cout << ((N2User*)data)->getName() << endl;
         break;
     }
 }
 
 int main()
 {
-    userAbstract userVal("userVal");
-    typeAbstract *data1 = new vmInt("data1", 7, 1);
-    typeAbstract *data2 = new vmIntTable("data2", 8, 3, 3);
-    ((vmInt*)data1)->setValue(0, 17);
-    ((vmIntTable*)data2)->setValue(0, 1, 18);
-    userVal.addVar(data1);
-    userVal.addVar(data2);
-    typeAbstract *value = userVal.getVar("data1", typeAbstract::INT);
+    N2User userVal("userVal");
+    N2AbstractType *data1 = new N2Int("data1", 7, 1);
+    N2AbstractType *data2 = new N2IntTable("data2", 8, 3, 3);
+    ((N2Int*)data1)->setValue(0, 17);
+    ((N2IntTable*)data2)->setValue(0, 1, 18);
+    userVal.addCopyVar(data1);
+    userVal.addCopyVar(data2);
+    N2AbstractType *value = userVal.getVar("data1", N2AbstractType::INT);
     if (value!=0) {
         f(value);
     }
-    value = userVal.getVar("data2", typeAbstract::INTTABLE);
+    value = userVal.getVar("data2", N2AbstractType::INTTABLE);
     if (value!=0) {
         f(value);
     }
 
-    typeAbstract *data3 = new vmInt("data3", 21, 1);
-    typeAbstract *data4 = new vmIntTable("data4", 42, 4, 4);
-    userAbstract *uv = new userAbstract("uv");
-    uv->addVar(data3);
-    uv->addVar(data4);
-    uv->addVar(&userVal);
+    N2AbstractType *data3 = new N2Int("data3", 21, 1);
+    N2AbstractType *data4 = new N2IntTable("data4", 42, 4, 4);
+    N2User *uv = new N2User("uv");
+    uv->addCopyVar(data3);
+    uv->addCopyVar(data4);
+    uv->addCopyVar(&userVal);
 
-    delete (vmInt*)data3; delete (vmIntTable*)data4;
+    delete (N2Int*)data3; delete (N2IntTable*)data4;
 
-    userAbstract *uVal = uv->clone();
+    N2User *uVal = uv->clone();
 
     delete uv;
 
-    value = uVal->getVar("data3", typeAbstract::INT);
+    value = uVal->getVar("data3", N2AbstractType::INT);
     if (value!=0) {
         f(value);
     }
-    value = uVal->getVar("data4", typeAbstract::INTTABLE);
+    value = uVal->getVar("data4", N2AbstractType::INTTABLE);
     if (value!=0) {
         f(value);
     }
-    value = uVal->getVar("userVal.data1", typeAbstract::INT);
+    value = uVal->getVar("userVal.data1", N2AbstractType::INT);
     if (value!=0) {
         f(value);
     }
-    value = uVal->getVar("userVal.data2", typeAbstract::INTTABLE);
+    value = uVal->getVar("userVal.data2", N2AbstractType::INTTABLE);
     if (value!=0) {
         f(value);
     }
-    value = uVal->getVar("userVal", typeAbstract::VMUSER);
+    value = uVal->getVar("userVal", N2AbstractType::VMUSER);
     if (value!=0) {
         f(value);
     }
 
     delete uVal;
 
-//    value = uv->getVar("data3", typeAbstract::INT);
+//    value = uv->getVar("data3", N2AbstractType::INT);
 //    if (value!=0) {
 //        f(value);
 //    }
-//    value = uv->getVar("data4", typeAbstract::INTTABLE);
+//    value = uv->getVar("data4", N2AbstractType::INTTABLE);
 //    if (value!=0) {
 //        f(value);
 //    }
-//    value = uv->getVar("userVal.data1", typeAbstract::INT);
+//    value = uv->getVar("userVal.data1", N2AbstractType::INT);
 //    if (value!=0) {
 //        f(value);
 //    }
-//    value = uv->getVar("userVal.data2", typeAbstract::INTTABLE);
+//    value = uv->getVar("userVal.data2", N2AbstractType::INTTABLE);
 //    if (value!=0) {
 //        f(value);
 //    }
@@ -113,22 +113,22 @@ int main()
     //delete data1;
     //delete data2;
 
-//    vmIntTable it("it", 123, 2, 10);
+//    N2IntTable it("it", 123, 2, 10);
 //    cout << it.getName() << endl;
 //    cout << it.getValue(1,9) << endl;
-//    vmIntTable it2(it);
+//    N2IntTable it2(it);
 //    cout << it2.getName() << endl;
 //    cout << it2.getValue(1,9) << endl;
 
-//    vmInt data("data", 7, 1);
+//    N2Int data("data", 7, 1);
 //    cout << data.getName() << endl;
 //    cout << data.getValue(0) << endl;
-//    vmInt data2(data);
+//    N2Int data2(data);
 //    cout << data2.getName() << endl;
 //    cout << data2.getValue(0) << endl;
 
 
-//    vmStringTable dataT("dataT", "Igor", 3, 3);
+//    N2StringTable dataT("dataT", "Igor", 3, 3);
 //    cout << dataT.getName() << endl;
 //    cout << dataT.getValue(1,1) << endl;
 
