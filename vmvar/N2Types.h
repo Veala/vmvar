@@ -26,7 +26,7 @@ public:
     const string getName()          { return varName; }
     types getType()                 { return type; }
     virtual N2AbstractType* clone() = 0;
-    virtual ~N2AbstractType() {   cout << "deleting tA: " << varName << endl; }
+    virtual ~N2AbstractType() { }
 protected:
     string varName;
     types type;
@@ -44,7 +44,7 @@ public:
     void setValue(uint index, T newValue);
     T getValue(uint index);
     N2AbstractType* clone() { return new N2AbstractSimple<T>(*this); }
-    ~N2AbstractSimple() { cout << "deleting sA: " << varName << endl; }
+    ~N2AbstractSimple() { }
 protected:
     vector<T> value;
 private:
@@ -87,7 +87,7 @@ public:
     void setValue(uint row, uint column, T newValue);
     T getValue(uint row, uint column);
     N2AbstractType* clone() { return new N2AbstractTable<T>(*this); }
-    ~N2AbstractTable() { cout << "deleting ttA: " << varName << endl; }
+    ~N2AbstractTable() { }
 protected:
     vector< vector<T> > value;
 private:
@@ -156,7 +156,6 @@ public:
     }
 
     ~N2User() {
-        cout << "deleting uA: " << varName << endl;
         for (uint i=0; i<vars.size(); i++)
             delete vars.at(i);
     }
